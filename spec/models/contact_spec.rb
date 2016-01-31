@@ -12,7 +12,7 @@ describe Contact do
   end
 
   it "is invalid without a first_name" do
-    contact = FactoryGirl.build(:contact, first_name: nil)
+    contact = build(:contact, first_name: nil)
     contact.valid?
     expect(contact.errors[:first_name]).to include("can't be blank")
   end
@@ -47,8 +47,8 @@ describe Contact do
   end
 
   it "is invalid with a duplicate email address using factory girl" do
-    FactoryGirl.create(:contact, email: 'testy@example.com')
-    contact = FactoryGirl.build(:contact, email: 'testy@example.com')
+    create(:contact, email: 'testy@example.com')
+    contact = build(:contact, email: 'testy@example.com')
     contact.valid?
     expect(contact.errors[:email]).to include("has already been taken")
   end
@@ -130,6 +130,6 @@ describe Contact do
   end
 
   it "has a valid factory" do
-    expect(FactoryGirl.build(:contact)).to be_valid
+    expect(build(:contact)).to be_valid
   end
 end
