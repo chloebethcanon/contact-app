@@ -68,25 +68,57 @@ describe Contact do
     expect(contact.full_name).to eq 'Testy McTesterson'
   end
 
-  it "returns a sorted array of results that match" do
-    smith = Contact.create(
-      first_name: 'John',
-      last_name: 'Smith',
-      email: 'jsmith@example.com',
+  it "returns the date a contact was last updated in a readable format" do
+    contact = Contact.new(
+      first_name: 'Testy',
+      last_name: 'McTesterson',
+      email: 'testy@example.com',
+      phone_number: '555-555-5555',
+      updated_at: '2016-01-30 17:00:00',
+      user_id: 100)
+    expect(contact.readable_date_time).to eq 'Jan 30, 2016'
+  end
+
+  it "adds the Japan country code to the phone_number" do
+    contact = Contact.new(
+      first_name: 'Testy',
+      last_name: 'McTesterson',
+      email: 'testy@example.com',
       phone_number: '555-555-5555',
       user_id: 100)
-    jones = Contact.create(
-      first_name: 'Tim',
-      last_name: 'Jones',
-      email: 'tjones@example.com',
-      phone_number: '555-555-1234',
-      user_id: 101)
-    johnson = Contact.create(
-      first_name: 'John',
-      last_name: 'Johnson',
-      email: 'jjohnson@example.com',
-      phone_number: '555-555-4321',
-      user_id: 102)
-    expect(Contact.by_letter("J")).to eq [johnson, jones]
+    expect(contact.japan_country_code).to eq '+81 555-555-5555'
+  end
+
+  describe "filter last name by letter" do
+    before :each do
+      @smith = Contact.create(
+        first_name: 'John',
+        last_name: 'Smith',
+        email: 'jsmith@example.com',
+        phone_number: '555-555-5555',
+        user_id: 100)
+      @jones = Contact.create(
+        first_name: 'Tim',
+        last_name: 'Jones',
+        email: 'tjones@example.com',
+        phone_number: '555-555-1234',
+        user_id: 101)
+      @johnson = Contact.create(
+        first_name: 'John',
+        last_name: 'Johnson',
+        email: 'jjohnson@example.com',
+        phone_number: '555-555-4321',
+        user_id: 102)
+    end
+    context "matching letters" do
+      it "returns a sorted array of results that match" do
+        expect(Contact.by_letter("J")).to eq [@johnson, @jones]
+      end
+    end
+    context "non-matching letters" do
+      it "omits results that do not match" do
+        expect(Contact.by_letter("J")).not_to include @smith
+      end
+    end
   end
 end
