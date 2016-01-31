@@ -1,0 +1,26 @@
+<h1><%= @contact.full_name %></h1>
+
+<table class ="table table-striped">
+    <tr>
+      <td><%= @contact.email %></td>
+      <td><%= @contact.japan_country_code %></td>
+      <td>Last updated: <%= @contact.readable_date_time %></td>
+      <td><%= link_to "Edit", "/contacts/#{@contact.id}/edit" %></td>
+      <td><%= link_to "Delete", "/contacts/#{@contact.id}", method: :delete %></td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>Groups:</td>
+      <td>
+        <ul>
+            <% @contact.groups.each do |group| %>
+              <li><%= group.name %></li>
+            <% end %>
+        </ul>
+      </td>
+    </tr>
+</table>
+
+<button class="btn btn-default"><%= link_to "Back to Contact List", "/contacts" %></button>

@@ -1,0 +1,15 @@
+<h1>Contacts</h1>
+
+<button class="btn btn-default"><%= link_to "Add New Contact", "/contacts/new" %></button>
+<br>
+<br>
+<table class="table table-striped">
+  <% @contacts.each do |contact| %>
+    <tr>
+      <td><%= link_to "#{contact.full_name}", "/contacts/#{contact.id}" %></td>
+      <td> </td>
+      <td><%= contact.email %></td>
+      <td><%= contact.japan_country_code %></td>
+    </tr>
+  <% end %>
+</table>
