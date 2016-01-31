@@ -9,7 +9,7 @@ class Contact < ActiveRecord::Base
   validates :email, presence: true, uniqueness: true
   validates :phone_number, presence: true
   validates :user_id, presence: true
-  
+
   def full_name
     "#{first_name} #{last_name}"
   end
@@ -20,6 +20,10 @@ class Contact < ActiveRecord::Base
 
   def japan_country_code
     "+81 #{phone_number}"
+  end
+
+  def self.by_letter(letter)
+    where("last_name LIKE ?", "#{letter}%").order(:last_name)
   end
 
 end

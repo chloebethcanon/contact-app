@@ -67,4 +67,26 @@ describe Contact do
       user_id: 100)
     expect(contact.full_name).to eq 'Testy McTesterson'
   end
+
+  it "returns a sorted array of results that match" do
+    smith = Contact.create(
+      first_name: 'John',
+      last_name: 'Smith',
+      email: 'jsmith@example.com',
+      phone_number: '555-555-5555',
+      user_id: 100)
+    jones = Contact.create(
+      first_name: 'Tim',
+      last_name: 'Jones',
+      email: 'tjones@example.com',
+      phone_number: '555-555-1234',
+      user_id: 101)
+    johnson = Contact.create(
+      first_name: 'John',
+      last_name: 'Johnson',
+      email: 'jjohnson@example.com',
+      phone_number: '555-555-4321',
+      user_id: 102)
+    expect(Contact.by_letter("J")).to eq [johnson, jones]
+  end
 end
